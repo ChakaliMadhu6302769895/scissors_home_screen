@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
                     ClipRRect(
                      borderRadius: BorderRadius.circular(10.0),
                       child: Image.asset(
-                        "images/Scissors logo.jpg",
+                        "images/logo scissors project.jpg",
                         height: 100,
                         width: 100,
                       ),
