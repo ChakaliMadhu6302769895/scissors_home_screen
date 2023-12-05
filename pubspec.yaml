@@ -36,8 +36,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   google_fonts: ^6.1.0
-  horizontal_week_calendar: ^0.0.11
   intl: ^0.18.1
+
 
 
 dev_dependencies:
@@ -72,6 +72,8 @@ flutter:
   - images/face care.webp
   - images/massage.webp
   - images/logo scissors project.jpg
+  - images/Scissors Main logo.jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

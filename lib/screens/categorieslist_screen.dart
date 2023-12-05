@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scissors_home_screen/screens/bookingslot_screen.dart';
 
 import '../models/categories.dart';
+import '../models/theme.dart';
 
 
 class CategoriesListScreen extends StatefulWidget {
@@ -117,7 +118,6 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
 
   void _showSelectedCategoriesPopup() {
     showModalBottomSheet(
-      backgroundColor: Colors.lightBlueAccent[700],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(50),bottom: Radius.circular(50)),),
       context: context,
       builder: (BuildContext context) {
@@ -130,7 +130,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
             children: [
               Text(
                 'Selected Services:',
-                style: GoogleFonts.robotoMono(fontSize: 20.0, fontWeight: FontWeight.bold,),
+                  style: AppFonts.getSubHeadingStyle(),
               ),
               SizedBox(height: 10.0),
               Expanded(
@@ -141,11 +141,11 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
                     return ListTile(
                       title: Text(
                         category.title,
-                        style: GoogleFonts.lato(fontWeight: FontWeight.bold),
+                          style: AppFonts.getSubHeadingStyle(),
                       ),
                       subtitle: Text(
                         category.price,
-                        style: GoogleFonts.lato(fontSize: 15, fontWeight: FontWeight.bold,),
+                          style: AppFonts.getDescriptionStyle(),
                       ),
                     );
                   },
@@ -158,7 +158,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
                   children: [
                     Text(
                       'Total Price :  ${calculateTotalPrice()}',
-                      style: GoogleFonts.lato(fontSize: 16.0, fontWeight: FontWeight.bold,),
+                        style: AppFonts.getTotalPriceStyle(),
                     ),
                     SizedBox(height: 10,),
                     ElevatedButton(
@@ -173,7 +173,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red,
                       ),
-                      child: Text('BOOK'),
+                      child: Text('BOOK' , style: AppFonts.getDescriptionStyle(),),
                     ),
                   ],
                 ),
@@ -189,7 +189,6 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.cyan[700],
         child: ListView.builder(
           itemCount: categoriesList.length,
           itemBuilder: (context, index) {
@@ -202,7 +201,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
                     child: ListTile(
                       title: Text(
                         categories.title,
-                        style: GoogleFonts.lato(fontWeight: FontWeight.bold,fontSize: 20),
+                          style: AppFonts.getSubHeadingStyle(),
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,7 +209,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
                           Padding(padding: EdgeInsets.only(bottom: 15)),
                           Text(
                             categories.price,
-                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                              style: AppFonts.getDescriptionStyle(),
                           ),
                         ],
                       ),
@@ -220,28 +219,29 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
                       ),
 
                       trailing: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            _toggle(index);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 8.0),
-                            child: Text(
-                              categories.addClickedStatus.isAddClicked
-                                  ? 'REMOVE'
-                                  : 'ADD',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              _toggle(index);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                categories.addClickedStatus.isAddClicked ? 'REMOVE' : 'ADD',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                          )
+
                       ),
                     ),
                   ),
@@ -249,7 +249,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
                     padding: const EdgeInsets.only(left: 14, bottom: 5),
                     child: Text(
                       categories.description,
-                      style: GoogleFonts.robotoSlab(fontWeight: FontWeight.bold),
+                        style: AppFonts.getDescriptionStyle(),
                     ),
                   ),
                 ],
@@ -261,4 +261,3 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
     );
   }
 }
-

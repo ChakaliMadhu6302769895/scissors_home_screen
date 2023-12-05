@@ -1,59 +1,108 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:horizontal_week_calendar/horizontal_week_calendar.dart';
 import 'package:intl/intl.dart';
 
-class BookingSlotScreen extends StatelessWidget {
+import '../models/theme.dart';
+
+class BookingSlotScreen extends StatefulWidget {
+  @override
+  _BookingSlotScreenState createState() => _BookingSlotScreenState();
+}
+
+class _BookingSlotScreenState extends State<BookingSlotScreen> {
+  DateTime selectedDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.cyan[700],//blueGrey[700],
-      body: Column(
+      body: Column(children: [
+        Padding(
+          padding: EdgeInsets.only(
+            top: 10.0,
+          ),
+        ),
+        Row(
           children: [
-            Padding(padding: EdgeInsets.only(top: 10.0,)),
-
-            Row(
-              children: [
-                Padding(padding: EdgeInsets.only(left: 20.0)),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset(
-                    "images/logo scissors project.jpg",
-                    height: 100,
-                    width: 100,
-                  ),
-                ),
-              ],
+            Padding(padding: EdgeInsets.only(left:20.0)),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.asset(
+                "images/logo scissors project.jpg",
+                height: 100,
+                width: 100,
+              ),
             ),
-            SizedBox(height: 8,),
-            Row(
-              children: [
-                Padding(padding: EdgeInsets.only(left: 25)),
-                Text(
-                  "Scissor's",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,fontFamily: 'robotomoto'),
-                ),
-              ],
+          ],
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Row(
+          children: [
+            Padding(padding: EdgeInsets.only(left: 15)),
+            Text(
+              "Scissor's",
+                style: AppFonts.getHeadingStyle(),
             ),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "CHOOSE YOUR DATE",
+                style: AppFonts.getSubHeadingStyle(),
+            )
+          ],
+        ),
+        SizedBox(height: 15),
+        ElevatedButton(
+          onPressed: () {
+            _selectDate(context);
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(100, 35), backgroundColor: Colors.red,
+          ),
+          child: Text(
+            'SELECT DATE',
+            style: AppFonts.getDescriptionStyle(),
+          ),
+        ),
 
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("SELECT YOUR DATE" , style: GoogleFonts.lato(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),)
-              ],
-            ),
-            SizedBox(height: 10),
-            Expanded(child: HorizontalWeekCalendarPackage(),)
-          ]
+        SizedBox(height: 10),
+        Expanded(
+          child: HorizontalWeekCalendarPackage(
+            selectedDate: selectedDate,
+            key: ValueKey<String>('your_key_value_here'),
+          ),
 
-      ),
-
+        )
+      ]),
     );
   }
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 }
+
 class HorizontalWeekCalendarPackage extends StatefulWidget {
-  const HorizontalWeekCalendarPackage({super.key});
+  final DateTime selectedDate;
+
+  const HorizontalWeekCalendarPackage({required Key key, required this.selectedDate})
+      : super(key: key);
 
   @override
   State<HorizontalWeekCalendarPackage> createState() =>
@@ -62,12 +111,30 @@ class HorizontalWeekCalendarPackage extends StatefulWidget {
 
 class _HorizontalWeekCalendarPackageState
     extends State<HorizontalWeekCalendarPackage> {
-  var selectedDate = DateTime.now();
+  Map<String, Color> buttonColors = {
+    '10:00 AM - 11:00 AM': Colors.green,
+    '02:00 PM - 03:00 PM': Colors.green,
+    '05:00 PM - 06:00 PM': Colors.green,
+    '11:00 AM - 12:00 PM': Colors.green,
+    '03:00 PM - 04:00 PM': Colors.green,
+    '06:00 PM - 07:00 PM': Colors.green,
+    '12:00 PM - 01:00 PM': Colors.green,
+    '04:00 PM - 05:00 PM': Colors.green,
+    '07:00 PM - 08:00 PM': Colors.green,
+  };
+
+  void toggleButtonColor(String time) {
+    setState(() {
+      buttonColors.forEach((key, value) {
+        buttonColors[key] = Colors.green;
+      });
+      buttonColors[time] =
+      (buttonColors[time] == Colors.green) ? Colors.red : Colors.green;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    DateTime selectedDate = DateTime.now();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -76,109 +143,93 @@ class _HorizontalWeekCalendarPackageState
             children: [
               Container(
                 child: Center(
-                  child: HorizontalWeekCalendar(
-                    weekStartFrom: WeekStartFrom.Monday,
-                    activeBackgroundColor: Colors.purple,
-                    activeTextColor: Colors.white,
-                    inactiveBackgroundColor: Colors.purple.withOpacity(.3),
-                    inactiveTextColor: Colors.white,
-                    disabledTextColor: Colors.grey,
-                    disabledBackgroundColor: Colors.grey.withOpacity(.3),
-                    activeNavigatorColor: Colors.purple,
-                    inactiveNavigatorColor: Colors.grey,
-                    monthColor: Colors.purple,
-                    onDateChange: (date) {
-                      setState(() {
-                        selectedDate = date;
-                        // Check if the selected date is in the next year
-                        if (date.year > DateTime.now().year) {
-                          // Do something when moving to the next year
-                          print('Moving to the next year');
-                        }
-                      });
-                    },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                         color: Colors.white70,
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      DateFormat('MMMM d, yyyy').format(widget.selectedDate),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                       color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(primary: Colors.greenAccent),
-                            onPressed: (){},
-                            child: Text('10:00 AM - 11:00 AM')
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(primary: Colors.greenAccent),
-                            onPressed: (){},
-                            child: Text('10:00 AM - 11:00 AM')
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(primary: Colors.greenAccent),
-                            onPressed: (){},
-                            child: Text('10:00 AM - 11:00 AM')
-                        ),
-                        SizedBox(width: 10),
-                        Column(
-                          children: [
-                            SizedBox(height: 10,)
-                          ],
-                        ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(primary: Colors.greenAccent),
-                            onPressed: (){},
-                            child: Text('10:00 AM - 11:00 AM')
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(primary: Colors.greenAccent),
-                            onPressed: (){},
-                            child: Text('10:00 AM - 11:00 AM')
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(primary: Colors.greenAccent),
-                            onPressed: (){},
-                            child: Text('10:00 AM - 11:00 AM')
-                        ),
-                        SizedBox(width: 10),
-                        Column(
-                          children: [
-                            SizedBox(height: 10)
-                          ],
-                        ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(primary: Colors.greenAccent),
-                            onPressed: (){},
-                            child: Text('10:00 AM - 11:00 AM')
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(primary: Colors.greenAccent),
-                            onPressed: (){},
-                            child: Text('10:00 AM - 11:00 AM')
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(primary: Colors.greenAccent),
-                            onPressed: (){},
-                            child: Text('10:00 AM - 11:00 AM')
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+
+              SizedBox(height: 15),
+              Text(
+                "PICK YOUR SLOT",
+                style: AppFonts.getSubHeadingStyle(),
+              ),
+              SizedBox(height: 10),
+              buildTimeSlotsColumn(),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {},
+                child: Text('BOOK YOUR APPOINTMENT' ,style: AppFonts.getDescriptionStyle(),),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildTimeSlotsColumn() {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          buildTimeSlotColumn([
+            '10:00 AM - 11:00 AM',
+            '02:00 PM - 03:00 PM',
+            '05:00 PM - 06:00 PM',
+          ]),
+          SizedBox(width: 15),
+          buildTimeSlotColumn([
+            '11:00 AM - 12:00 PM',
+            '03:00 PM - 04:00 PM',
+            '06:00 PM - 07:00 PM',
+          ]),
+          SizedBox(width: 15),
+          buildTimeSlotColumn([
+            '12:00 PM - 01:00 PM',
+            '04:00 PM - 05:00 PM',
+            '07:00 PM - 08:00 PM',
+          ]),
+        ],
+      ),
+    );
+  }
+
+  Widget buildTimeSlotColumn(List<String> timeSlots) {
+    return Column(
+      children: timeSlots
+          .map(
+            (time) => Column(
+          children: [
+            SizedBox(height: 10),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: buttonColors[time]),
+              onPressed: () {
+                toggleButtonColor(time);
+              },
+              child: Text(time),
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
+      )
+          .toList(),
     );
   }
 }
