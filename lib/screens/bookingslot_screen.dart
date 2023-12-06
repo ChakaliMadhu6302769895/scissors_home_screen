@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
 import '../models/theme.dart';
 
 class BookingSlotScreen extends StatefulWidget {
@@ -16,69 +14,107 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        Padding(
-          padding: EdgeInsets.only(
-            top: 10.0,
-          ),
-        ),
-        Row(
-          children: [
-            Padding(padding: EdgeInsets.only(left:20.0)),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Image.asset(
-                "images/logo scissors project.jpg",
-                height: 100,
-                width: 100,
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/Background image.jpg"),
+                fit: BoxFit.cover,
               ),
             ),
-          ],
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Row(
-          children: [
-            Padding(padding: EdgeInsets.only(left: 15)),
-            Text(
-              "Scissor's",
-                style: AppFonts.getHeadingStyle(),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(255, 255, 255, 0.8),
             ),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "CHOOSE YOUR DATE",
-                style: AppFonts.getSubHeadingStyle(),
+          ),
+         Column(
+           children: [
+             Padding(
+               padding: EdgeInsets.only(top: 10.0),
+             ),
+             Row(
+               children: [
+                 Padding(padding: EdgeInsets.only(left: 35.0)),
+                 ClipRRect(
+                   child: Image.asset(
+                     "images/Scissors_Main_logo-removebg-preview.png",
+                     height: 80,
+                     width: 80,
+                   ),
+                 ),
+               ],
+             ),
+             Row(
+               children: [
+                 Padding(padding: EdgeInsets.only(left: 20)),
+                 Text(
+                   "Scissor's",
+                   style: AppFonts.getHeadingStyle(),
+                 ),
+               ],
+             ),
+           ],
+         ),
+          Center(
+            child: Card(
+              margin: EdgeInsets.all(150.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "CHOOSE YOUR DATE",
+                          style: AppFonts.getSubHeadingStyle(),
+                        ),
+                        SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            _selectDate(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(150, 35),
+                            backgroundColor: Colors.brown,
+                          ),
+                          child: Text(
+                            'SELECT DATE',
+                            style: AppFonts.getDescriptionStyle(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Expanded(
+                      child: HorizontalWeekCalendarPackage(
+                        selectedDate: selectedDate,
+                        key: ValueKey<String>('your_key_value_here'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             )
-          ],
-        ),
-        SizedBox(height: 15),
-        ElevatedButton(
-          onPressed: () {
-            _selectDate(context);
-          },
-          style: ElevatedButton.styleFrom(
-            minimumSize: Size(100, 35), backgroundColor: Colors.red,
           ),
-          child: Text(
-            'SELECT DATE',
-            style: AppFonts.getDescriptionStyle(),
-          ),
-        ),
-
-        SizedBox(height: 10),
-        Expanded(
-          child: HorizontalWeekCalendarPackage(
-            selectedDate: selectedDate,
-            key: ValueKey<String>('your_key_value_here'),
-          ),
-
-        )
-      ]),
+        ],
+      ),
     );
   }
 
@@ -101,7 +137,8 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
 class HorizontalWeekCalendarPackage extends StatefulWidget {
   final DateTime selectedDate;
 
-  const HorizontalWeekCalendarPackage({required Key key, required this.selectedDate})
+  const HorizontalWeekCalendarPackage(
+      {required Key key, required this.selectedDate})
       : super(key: key);
 
   @override
@@ -135,50 +172,44 @@ class _HorizontalWeekCalendarPackageState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Container(
-                child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                         color: Colors.white70,
-                          width: 2.0,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      DateFormat('MMMM d, yyyy').format(widget.selectedDate),
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                       color: Colors.white,
-                      ),
-                    ),
-                  ),
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.redAccent,
+                  width: 2.0,
                 ),
               ),
-
-              SizedBox(height: 15),
-              Text(
-                "PICK YOUR SLOT",
-                style: AppFonts.getSubHeadingStyle(),
+            ),
+            child: Text(
+              DateFormat('MMMM d, yyyy').format(widget.selectedDate),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
               ),
-              SizedBox(height: 10),
-              buildTimeSlotsColumn(),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text('BOOK YOUR APPOINTMENT' ,style: AppFonts.getDescriptionStyle(),),
-              ),
-            ],
+            ),
           ),
-        ),
+          SizedBox(height: 15),
+          Text(
+            "PICK YOUR SLOT",
+            style: AppFonts.getSubHeadingStyle(),
+          ),
+          SizedBox(height: 10),
+          buildTimeSlotsColumn(),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text(
+              'BOOK YOUR APPOINTMENT',
+              style: AppFonts.getDescriptionStyle(),
+            ),
+          ),
+        ],
       ),
     );
   }

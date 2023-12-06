@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:scissors_home_screen/screens/bookingslot_screen.dart';
-
 import '../models/categories.dart';
 import '../models/theme.dart';
 
@@ -171,7 +169,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
 
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
+                        primary: Colors.brown,
                       ),
                       child: Text('BOOK' , style: AppFonts.getDescriptionStyle(),),
                     ),
@@ -189,7 +187,9 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color: Colors.cyan,
         child: ListView.builder(
+          padding: EdgeInsets.only(left: 10,right: 10),
           itemCount: categoriesList.length,
           itemBuilder: (context, index) {
             Categories categories = categoriesList[index];
@@ -220,7 +220,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
 
                       trailing: Container(
                           decoration: BoxDecoration(
-                            color: Colors.red,
+                            color: Colors.brown,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: GestureDetector(
@@ -241,7 +241,6 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
                               ),
                             ),
                           )
-
                       ),
                     ),
                   ),
