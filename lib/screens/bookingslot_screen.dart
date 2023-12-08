@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/theme.dart';
-import 'confirmation_screen.dart';
 
 class BookingSlotScreen extends StatefulWidget {
   @override
@@ -11,6 +10,17 @@ class BookingSlotScreen extends StatefulWidget {
 
 class _BookingSlotScreenState extends State<BookingSlotScreen> {
   DateTime selectedDate = DateTime.now();
+  Map<String, Color> buttonColors = {
+    '10-11AM': Colors.green,
+    '2-3PM': Colors.green,
+    '6-7PM': Colors.green,
+    '11-12PM': Colors.green,
+    '3-4PM': Colors.green,
+    '7-8PM': Colors.green,
+    '12-1PM': Colors.green,
+    '4-5PM': Colors.green,
+    '8-9PM': Colors.green,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -32,75 +42,79 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
               color: Color.fromRGBO(255, 255, 255, 0.8),
             ),
           ),
-         Column(
-           children: [
-             Padding(
-               padding: EdgeInsets.only(top: 10.0),
-             ),
-             Row(
-               children: [
-                 Padding(padding: EdgeInsets.only(left: 35.0)),
-                 ClipRRect(
-                   child: Image.asset(
-                     "images/Scissors_Main_logo-removebg-preview.png",
-                     height: 80,
-                     width: 80,
-                   ),
-                 ),
-               ],
-             ),
-             Row(
-               children: [
-                 Padding(padding: EdgeInsets.only(left: 20)),
-                 Text(
-                   "Scissor's",
-                   style: AppFonts.getHeadingStyle(),
-                 ),
-               ],
-             ),
-             SizedBox(height: 10),
-             Column(
-               children: [
-                 Text("CHOOSE YOUR SLOT" , style: AppFonts.getSubHeadingStyle()),
-               ],
-             ),
-           ],
-         ),
-       Center(
-         child: Container(
-           height: 500,width: 600,
-           child: Card(
-             margin: EdgeInsets.all(20),
-             shape: RoundedRectangleBorder(
-               borderRadius: BorderRadius.circular(20),
-             ),
-             child: Column(
-               children: [
-                 SizedBox(height: 10),
-                 ElevatedButton(
-                   onPressed: () {
-                     _selectDate(context);
-                   },
-                   style: ElevatedButton.styleFrom(
-                     minimumSize: Size(150, 35),
-                     backgroundColor: Colors.brown,
-                   ),
-                   child: Text(
-                     'SELECT DATE',
-                     style: AppFonts.getDescriptionStyle(),
-                   ),
-                 ),
-                 Expanded(
-                   child: HorizontalWeekCalendarPackage(
-                     selectedDate: selectedDate,
-                     key: ValueKey<String>('your_key_value_here'),
-                   ),
-                 ),
-               ],
-             ),
-           ),
-         ),
-       ),
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 10.0),
+              ),
+              Row(
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 35.0)),
+                  ClipRRect(
+                    child: Image.asset(
+                      "images/Scissors_Main_logo-removebg-preview.png",
+                      height: 80,
+                      width: 80,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 20)),
+                  Text(
+                    "Scissor's",
+                    style: AppFonts.getHeadingStyle(),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Column(
+                children: [
+                  Text("CHOOSE YOUR SLOT",
+                      style: AppFonts.getSubHeadingStyle()),
+                ],
+              ),
+            ],
+          ),
+          Center(
+            child: Container(
+              height: 500,
+              width: 600,
+              child: Card(
+                margin: EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        _selectDate(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(150, 35),
+                        backgroundColor: Colors.brown,
+                      ),
+                      child: Text(
+                        'SELECT DATE',
+                        style: AppFonts.getDescriptionStyle(),
+                      ),
+                    ),
+                    Expanded(
+                      child: HorizontalWeekCalendarPackage(
+                        selectedDate: selectedDate,
+                        buttonColors: buttonColors,
+                        onToggleColor: toggleButtonColor,
+                        key: GlobalKey(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -120,33 +134,6 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
       });
     }
   }
-}
-
-class HorizontalWeekCalendarPackage extends StatefulWidget {
-  final DateTime selectedDate;
-
-  const HorizontalWeekCalendarPackage(
-      {required Key key, required this.selectedDate})
-      : super(key: key);
-
-  @override
-  State<HorizontalWeekCalendarPackage> createState() =>
-      _HorizontalWeekCalendarPackageState();
-}
-
-class _HorizontalWeekCalendarPackageState
-    extends State<HorizontalWeekCalendarPackage> {
-  Map<String, Color> buttonColors = {
-    '10-11AM': Colors.green,
-    '2-3PM': Colors.green,
-    '6-7PM': Colors.green,
-    '11-12PM': Colors.green,
-    '3-4PM': Colors.green,
-    '7-8PM': Colors.green,
-    '12-1PM': Colors.green,
-    '4-5PM': Colors.green,
-    '8-9PM': Colors.green,
-  };
 
   void toggleButtonColor(String time) {
     setState(() {
@@ -157,8 +144,26 @@ class _HorizontalWeekCalendarPackageState
       (buttonColors[time] == Colors.green) ? Colors.red : Colors.green;
     });
   }
+}
 
+class HorizontalWeekCalendarPackage extends StatefulWidget {
+  final DateTime selectedDate;
+  final Map<String, Color> buttonColors;
+  final Function(String) onToggleColor;
 
+  const HorizontalWeekCalendarPackage({
+    required Key key,
+    required this.selectedDate,
+    required this.buttonColors,
+    required this.onToggleColor,
+  }) : super(key: key);
+
+  @override
+  State<HorizontalWeekCalendarPackage> createState() =>
+      _HorizontalWeekCalendarPackageState();
+}
+
+class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPackage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -175,7 +180,7 @@ class _HorizontalWeekCalendarPackageState
               ),
             ),
             child: Text(
-              DateFormat('MMMM d, yyyy').format(widget.selectedDate),
+              formattedDate(widget.selectedDate),
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -193,10 +198,9 @@ class _HorizontalWeekCalendarPackageState
           SizedBox(height: 60),
           ElevatedButton(
             onPressed: () {
+              navigateToConfirmationScreen(context);
             },
-            style: ElevatedButton.styleFrom(
-              primary: Colors.brown
-            ),
+            style: ElevatedButton.styleFrom(primary: Colors.brown),
             child: Text(
               'BOOK YOUR APPOINTMENT',
               style: AppFonts.getDescriptionStyle(),
@@ -243,9 +247,12 @@ class _HorizontalWeekCalendarPackageState
           children: [
             SizedBox(height: 10),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: buttonColors[time] , fixedSize: Size(100, 35)),
+              style: ElevatedButton.styleFrom(
+                primary: widget.buttonColors[time],
+                fixedSize: Size(100, 35),
+              ),
               onPressed: () {
-                toggleButtonColor(time);
+                widget.onToggleColor(time);
               },
               child: Text(time),
             ),
@@ -254,5 +261,60 @@ class _HorizontalWeekCalendarPackageState
       )
           .toList(),
     );
+  }
+
+  void navigateToConfirmationScreen(BuildContext context) {
+    List<String> selectedTimeSlots = [];
+
+    widget.buttonColors.forEach((key, value) {
+      if (value == Colors.red) {
+        selectedTimeSlots.add(key);
+      }
+    });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ConfirmationScreen(
+          selectedDate: widget.selectedDate,
+          selectedTimeSlots: selectedTimeSlots,
+        ),
+      ),
+    );
+  }
+  String formattedDate(DateTime date) {
+    return DateFormat('MMMM d, yyyy').format(date);
+  }
+}
+
+class ConfirmationScreen extends StatelessWidget {
+  final DateTime selectedDate;
+  final List<String> selectedTimeSlots;
+
+  ConfirmationScreen({
+    required this.selectedDate,
+    required this.selectedTimeSlots,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Confirmation'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Selected Date: ${formattedDate(selectedDate)}'),
+            SizedBox(height: 20),
+            Text('Selected Time Slots: ${selectedTimeSlots.join(', ')}'),
+          ],
+        ),
+      ),
+    );
+  }
+  String formattedDate(DateTime date) {
+    return DateFormat('MMMM d, yyyy').format(date);
   }
 }

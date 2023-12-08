@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 
-class Conform extends StatelessWidget {
-  final String parameter;
-  Conform({required this.parameter});
+class ConfirmationScreen extends StatelessWidget {
+  final DateTime selectedDate;
+  final List<String> selectedTimeSlots;
+
+  ConfirmationScreen({
+    required this.selectedDate,
+    required this.selectedTimeSlots,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text(
-              'received data is : $parameter'
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Confirmation'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Selected Date: ${selectedDate.toLocal()}'),
+            SizedBox(height: 20),
+            Text('Selected Time Slots: ${selectedTimeSlots.join(', ')}'),
+          ],
         ),
       ),
     );
