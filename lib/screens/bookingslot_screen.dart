@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/theme.dart';
+import 'confirmation_screen.dart';
 
 class BookingSlotScreen extends StatefulWidget {
   @override
@@ -57,62 +58,49 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
                  ),
                ],
              ),
+             SizedBox(height: 10),
+             Column(
+               children: [
+                 Text("CHOOSE YOUR SLOT" , style: AppFonts.getSubHeadingStyle()),
+               ],
+             ),
            ],
          ),
-          Center(
-            child: Card(
-              margin: EdgeInsets.all(150.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 20.0),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "CHOOSE YOUR DATE",
-                          style: AppFonts.getSubHeadingStyle(),
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () {
-                            _selectDate(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(150, 35),
-                            backgroundColor: Colors.brown,
-                          ),
-                          child: Text(
-                            'SELECT DATE',
-                            style: AppFonts.getDescriptionStyle(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Expanded(
-                      child: HorizontalWeekCalendarPackage(
-                        selectedDate: selectedDate,
-                        key: ValueKey<String>('your_key_value_here'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ),
+       Center(
+         child: Container(
+           height: 500,width: 600,
+           child: Card(
+             margin: EdgeInsets.all(20),
+             shape: RoundedRectangleBorder(
+               borderRadius: BorderRadius.circular(20),
+             ),
+             child: Column(
+               children: [
+                 SizedBox(height: 10),
+                 ElevatedButton(
+                   onPressed: () {
+                     _selectDate(context);
+                   },
+                   style: ElevatedButton.styleFrom(
+                     minimumSize: Size(150, 35),
+                     backgroundColor: Colors.brown,
+                   ),
+                   child: Text(
+                     'SELECT DATE',
+                     style: AppFonts.getDescriptionStyle(),
+                   ),
+                 ),
+                 Expanded(
+                   child: HorizontalWeekCalendarPackage(
+                     selectedDate: selectedDate,
+                     key: ValueKey<String>('your_key_value_here'),
+                   ),
+                 ),
+               ],
+             ),
+           ),
+         ),
+       ),
         ],
       ),
     );
@@ -149,15 +137,15 @@ class HorizontalWeekCalendarPackage extends StatefulWidget {
 class _HorizontalWeekCalendarPackageState
     extends State<HorizontalWeekCalendarPackage> {
   Map<String, Color> buttonColors = {
-    '10:00 AM - 11:00 AM': Colors.green,
-    '02:00 PM - 03:00 PM': Colors.green,
-    '05:00 PM - 06:00 PM': Colors.green,
-    '11:00 AM - 12:00 PM': Colors.green,
-    '03:00 PM - 04:00 PM': Colors.green,
-    '06:00 PM - 07:00 PM': Colors.green,
-    '12:00 PM - 01:00 PM': Colors.green,
-    '04:00 PM - 05:00 PM': Colors.green,
-    '07:00 PM - 08:00 PM': Colors.green,
+    '10-11AM': Colors.green,
+    '2-3PM': Colors.green,
+    '6-7PM': Colors.green,
+    '11-12PM': Colors.green,
+    '3-4PM': Colors.green,
+    '7-8PM': Colors.green,
+    '12-1PM': Colors.green,
+    '4-5PM': Colors.green,
+    '8-9PM': Colors.green,
   };
 
   void toggleButtonColor(String time) {
@@ -169,6 +157,7 @@ class _HorizontalWeekCalendarPackageState
       (buttonColors[time] == Colors.green) ? Colors.red : Colors.green;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -201,9 +190,13 @@ class _HorizontalWeekCalendarPackageState
           ),
           SizedBox(height: 10),
           buildTimeSlotsColumn(),
-          SizedBox(height: 20),
+          SizedBox(height: 60),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.brown
+            ),
             child: Text(
               'BOOK YOUR APPOINTMENT',
               style: AppFonts.getDescriptionStyle(),
@@ -221,21 +214,21 @@ class _HorizontalWeekCalendarPackageState
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           buildTimeSlotColumn([
-            '10:00 AM - 11:00 AM',
-            '02:00 PM - 03:00 PM',
-            '05:00 PM - 06:00 PM',
+            '10-11AM',
+            '2-3PM',
+            '6-7PM',
           ]),
-          SizedBox(width: 15),
+          SizedBox(width: 5),
           buildTimeSlotColumn([
-            '11:00 AM - 12:00 PM',
-            '03:00 PM - 04:00 PM',
-            '06:00 PM - 07:00 PM',
+            '11-12PM',
+            '3-4PM',
+            '7-8PM',
           ]),
-          SizedBox(width: 15),
+          SizedBox(width: 5),
           buildTimeSlotColumn([
-            '12:00 PM - 01:00 PM',
-            '04:00 PM - 05:00 PM',
-            '07:00 PM - 08:00 PM',
+            '12-1PM',
+            '4-5PM',
+            '8-9PM',
           ]),
         ],
       ),
@@ -250,13 +243,12 @@ class _HorizontalWeekCalendarPackageState
           children: [
             SizedBox(height: 10),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: buttonColors[time]),
+              style: ElevatedButton.styleFrom(primary: buttonColors[time] , fixedSize: Size(100, 35)),
               onPressed: () {
                 toggleButtonColor(time);
               },
               child: Text(time),
             ),
-            SizedBox(height: 10),
           ],
         ),
       )

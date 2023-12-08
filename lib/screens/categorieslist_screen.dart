@@ -49,7 +49,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
       price: "Rs 500/-",
       description:
       "A Massage should be pleasing to all the senses, creating a relaxed and positive atmosphere.",
-      image: "images/massage.webp",
+      image: "images/massage new.jpg",
       quantity: 0,
       addClickedStatus: AddClickedStatus(isAddClicked: false),
     ),
@@ -189,7 +189,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
       body: Container(
         color: Colors.cyan,
         child: ListView.builder(
-          padding: EdgeInsets.only(left: 10,right: 10),
+          padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
           itemCount: categoriesList.length,
           itemBuilder: (context, index) {
             Categories categories = categoriesList[index];

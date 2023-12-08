@@ -51,5 +51,15 @@ class AppFonts {
       fontSize: 20,
     );
   }
+
+  //For emulator pupose
+
+  static TextStyle getEmulatorHeading() {
+    return GoogleFonts.openSans(
+      fontWeight: FontWeight.bold,
+      fontSize: 20,
+    );
+  }
 }
+
 
