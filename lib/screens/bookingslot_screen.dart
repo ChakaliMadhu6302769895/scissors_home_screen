@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/theme.dart';
+import 'confirmation_screen.dart';
 
 class BookingSlotScreen extends StatefulWidget {
   @override
@@ -282,39 +282,11 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
       ),
     );
   }
+
   String formattedDate(DateTime date) {
-    return DateFormat('MMMM d, yyyy').format(date);
+    return DateFormat.yMMMMd().format(date);
   }
+
 }
 
-class ConfirmationScreen extends StatelessWidget {
-  final DateTime selectedDate;
-  final List<String> selectedTimeSlots;
 
-  ConfirmationScreen({
-    required this.selectedDate,
-    required this.selectedTimeSlots,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Confirmation'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Selected Date: ${formattedDate(selectedDate)}'),
-            SizedBox(height: 20),
-            Text('Selected Time Slots: ${selectedTimeSlots.join(', ')}'),
-          ],
-        ),
-      ),
-    );
-  }
-  String formattedDate(DateTime date) {
-    return DateFormat('MMMM d, yyyy').format(date);
-  }
-}

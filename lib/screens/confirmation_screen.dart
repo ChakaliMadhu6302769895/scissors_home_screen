@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class ConfirmationScreen extends StatelessWidget {
   final DateTime selectedDate;
   final List<String> selectedTimeSlots;
